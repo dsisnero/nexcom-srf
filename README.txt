@@ -1,9 +1,9 @@
 = srf
 
-home  :: FIX (url)
-code  :: FIX (url)
-rdoc  :: FIX (url)
-bugs  :: FIX (url)
+home  :: https://github.com/dsisnero/nexcom-srf.git
+code  :: https://github.com/dsisnero/nexcom-srf.git
+rdoc  :: https://github.com/dsisnero/nexcom-srf.git
+bugs  :: https://github.com/dsisnero/nexcom-srf.git
 ... etc ...
 
 == DESCRIPTION:
