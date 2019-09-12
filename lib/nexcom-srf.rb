@@ -2,7 +2,7 @@
 require 'pathname'
 
 module Nexcom
-  ROOT = Pathname(__dir__).parent
 end
-
-require 'nexcom/srf'
+require 'nexcom/paths'
+require 'nexcom/excel_srf'
+require 'nexcom/cost_estimate'

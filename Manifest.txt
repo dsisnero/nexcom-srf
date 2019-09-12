@@ -1,9 +1,14 @@
-.autotest
 History.txt
+LICENSE
 Manifest.txt
 README.txt
 Rakefile
+data/Cost.Estimate.xlsm
 data/srf.v1.xls
 lib/nexcom-srf.rb
+lib/nexcom/cost_estimate.rb
+lib/nexcom/excel_srf.rb
+lib/nexcom/json_serializer.rb
+lib/nexcom/paths.rb
 lib/nexcom/srf.rb
 test/nexcom/test_srf.rb
