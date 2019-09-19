@@ -110,14 +110,25 @@ module Nexcom
                  cable_lmr400uf_ft: 'B37',
                  cable_7_eigth:  'B38',
                  cable_1_half: 'B39',
+                 # Connectors
+                 conn_7_8_male_straight: 'B40',
+                 conn_7_8_female_straight: 'B41',
+                 conn_7_8_female_n_type: 'B42',
+                 conn_7_8_male_andrews: 'B43',
+                 conn_1_2_male_straight: 'B44',
+                 conn_1_2_female_right_angle: 'B45',
+                 conn_1_2_female_straight: 'B46',
+                 conn_lmr_400uf_straight: 'B47',
+                 conn_lmr_400uf_right_angle: 'B48',
+                 conn_lmr_400uf_female_straight: 'B49',
                  # RCEa aInfor
-                 rce_remote_qty: 'B40',
-                 rce_control_qty: 'B41',
-                 rce_control_cable_qty: 'B42',
-                 rce_remote_cable_qty: 'B43',
+                 rce_remote_qty: 'B50',
+                 rce_control_qty: 'B51',
+                 rce_control_cable_qty: 'B52',
+                 rce_remote_cable_qty: 'B53',
                  # Site kit
-                 v2_site_kit: 'B44',
-                 v2_allignment_test_fixture: 'B45',
+                 v2_site_kit: 'B54',
+                 v2_allignment_test_fixture: 'B55',
                }
 
     def self.with_form(form=nil, serializer: nil)

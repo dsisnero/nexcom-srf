@@ -121,7 +121,6 @@ module Nexcom
         funds_siteprep_labor: 'AQ32',
         funds_re_drafting:  'AQ33',
         funds_installation:   'AQ34',
-        
         # RADIOS
         receiver_vhf_qty:  'U41',
         transmitter_vhf_qty: 'U42',
@@ -140,6 +139,17 @@ module Nexcom
         cable_lmr400uf_ft: 'U59',
         cable_7_eigth:  'U57',
         cable_1_half: 'U58',
+        # Connectors
+        conn_7_8_male_straight: 'U73',
+        conn_7_8_female_straight: 'U74',
+        conn_7_8_female_n_type: 'U75',
+        conn_7_8_male_andrews: 'U76',
+        conn_1_2_male_straight: 'U77',
+        conn_1_2_female_right_angle: 'U78',
+        conn_1_2_female_straight: 'U79',
+        conn_lmr_400uf_straight: 'U80',
+        conn_lmr_400uf_right_angle: 'U81',
+        conn_lmr_400uf_female_straight: 'U82',
         # Racks
         rack_rcag_v2_8d_qty: 'AU41',
         rack_rco_v2_8d_qty: 'AU42',
