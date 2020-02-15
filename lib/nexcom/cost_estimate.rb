@@ -2,6 +2,10 @@ require 'robust_excel_ole'
 require 'date'
 require_relative 'json_serializer'
 
+require_relative 'sheet_atts'
+require_relative 'excel_table'
+require_relative 'tables'
+
 module ExcelAccessor
 
 
@@ -35,6 +39,7 @@ module ExcelAccessor
     end
 
     def excel_atts(sheet: 1, atts: {})
+      instance_variable_set("@sheet_1")
       atts.each do |k,v|
         excel_att(k,v, sheet: sheet)
       end
@@ -46,91 +51,98 @@ end
 
 module Nexcom
 
+
+ 
   ROOT = File.join(__dir__ ,'../../')
 
 
   class CostEstimate
 
-    include ExcelAccessor
+    #  include ExcelAccessor
     
     EXCEL_FILE = Nexcom::ROOT + 'data/Cost.Estimate.xlsm'
 
     VERSION = '0.5'
 
+    SHEET1 =  {
+      title: 'B10',
+      jcn: 'B11',
+      location: 'B12',
+      associated_facilities: 'B13',
+      project_engineer: 'B14',
+      estimate_date: 'B15' ,
+      estimate_type: 'B16',
+      locid: 'B17',
+      factype: 'B18',
+      baseline_budget: 'B22',
+      labor_total: 'B28',
+      travel_total: 'B32',
+      pa_request_total: 'B38',
+      po_material_total: 'B42',
+    }
 
-    excel_atts sheet: 2, atts: {
-                 elect_eng1: 'D6',
-                 civ_eng1: 'D4'
-               }
+    SHEET2 =  {
+      elect_eng1: 'D6',
+      civ_eng1: 'D4',
+    }
 
-    excel_atts sheet: 1, atts: {
-                 title: 'B10',
-                 jcn: 'B11',
-                 location: 'B12',
-                 associated_facilities: 'B13',
-                 project_engineer: 'B14',
-                 estimate_date: 'B15' ,
-                 estimate_type: 'B16',
-                 locid: 'B17',
-                 factype: 'B18'
-               }
-
-    excel_atts sheet: 5, atts: {
-                 # RADIOS
-                 transmitter_vhf_qty: 'B4',
-                 transmitter_uhf_qty: 'B5',
-                 transmitter_uhf_high_power: 'B6',
-                 receiver_vhf_qty:  'B7',
-                 receiver_uhf_qty: 'B8',
-                 # Racks
-                 rack_rcag_v2_8d_qty: 'B15',
-                 rack_rco_v2_8d_qty: 'B16',
-                 rack_8rx_mc_v2_83_qty: 'B17',
-                 rack_8rx_no_mc_v2_8d_qty: 'B18',
-                 rack_16rx_mc_v2_8d_qty: 'B19',
-                 rack_16rx_no_mc_v2_8d_qty: 'B20',
-                 rack_rt_shared_ant_v2_8d_qty: 'B21',
-                 rack_rt_single_ant_v2_8d_qty: 'B22',
-                 rack_4rtr_4_rce_v2_8d_qty: 'B23',
-                 rack_4rtr_v2_8d_qty: 'B24',
-                 rack_6rtr_v2_8d_qty:  'B25',
-                 rack_buec_v2_8d_qty: 'B26',
-                 rack_bare_83x25: 'B27',
-                 rack_bare_83x22: 'B28',
-                 # ANTENNAS
-                 antenna_vhf_qty: 'B29',
-                 antenna_uhf_qty: 'B30',
-                 antenna_vhf_vhf_qty: 'B31',
-                 antenna_uhf_vhf_qty: 'B32',
-                 antenna_uhf_uhf_qty: 'B33',
-                 antenna_vhf_4db_qty: 'B34',
-                 antenna_uhf_4db_qty: 'B35',
-                 # CABLES
-                 cable_rg214: 'B36',
-                 cable_lmr400uf_ft: 'B37',
-                 cable_7_eigth:  'B38',
-                 cable_1_half: 'B39',
-                 # Connectors
-                 conn_7_8_male_straight: 'B40',
-                 conn_7_8_female_straight: 'B41',
-                 conn_7_8_female_n_type: 'B42',
-                 conn_7_8_male_andrews: 'B43',
-                 conn_1_2_male_straight: 'B44',
-                 conn_1_2_female_right_angle: 'B45',
-                 conn_1_2_female_straight: 'B46',
-                 conn_lmr_400uf_straight: 'B47',
-                 conn_lmr_400uf_right_angle: 'B48',
-                 conn_lmr_400uf_female_straight: 'B49',
-                 # RCEa aInfor
-                 rce_remote_qty: 'B50',
-                 rce_control_qty: 'B51',
-                 rce_control_cable_qty: 'B52',
-                 rce_remote_cable_qty: 'B53',
-                 # Site kit
-                 v2_site_kit: 'B54',
-                 v2_allignment_test_fixture: 'B55',
-               }
-
+    
+    SHEET5 = {
+      # RADIOS
+      transmitter_vhf_qty: 'B4',
+      transmitter_uhf_qty: 'B5',
+      transmitter_uhf_high_power: 'B6',
+      receiver_vhf_qty:  'B7',
+      receiver_uhf_qty: 'B8',
+      # Racks
+      rack_rcag_v2_8d_qty: 'B15',
+      rack_rco_v2_8d_qty: 'B16',
+      rack_8rx_mc_v2_83_qty: 'B17',
+      rack_8rx_no_mc_v2_8d_qty: 'B18',
+      rack_16rx_mc_v2_8d_qty: 'B19',
+      rack_16rx_no_mc_v2_8d_qty: 'B20',
+      rack_rt_shared_ant_v2_8d_qty: 'B21',
+      rack_rt_single_ant_v2_8d_qty: 'B22',
+      rack_4rtr_4_rce_v2_8d_qty: 'B23',
+      rack_4rtr_v2_8d_qty: 'B24',
+      rack_6rtr_v2_8d_qty:  'B25',
+      rack_buec_v2_8d_qty: 'B26',
+      rack_bare_83x25: 'B27',
+      rack_bare_83x22: 'B28',
+      # ANTENNAS
+      antenna_vhf_qty: 'B29',
+      antenna_uhf_qty: 'B30',
+      antenna_vhf_vhf_qty: 'B31',
+      antenna_uhf_vhf_qty: 'B32',
+      antenna_uhf_uhf_qty: 'B33',
+      antenna_vhf_4db_qty: 'B34',
+      antenna_uhf_4db_qty: 'B35',
+      # CABLES
+      cable_rg214: 'B36',
+      cable_lmr400uf_ft: 'B37',
+      cable_7_eigth:  'B38',
+      cable_1_half: 'B39',
+      # Connectors
+      conn_7_8_male_straight: 'B40',
+      conn_7_8_female_straight: 'B41',
+      conn_7_8_female_n_type: 'B42',
+      conn_7_8_male_andrews: 'B43',
+      conn_1_2_male_straight: 'B44',
+      conn_1_2_female_right_angle: 'B45',
+      conn_1_2_female_straight: 'B46',
+      conn_lmr_400uf_straight: 'B47',
+      conn_lmr_400uf_right_angle: 'B48',
+      conn_lmr_400uf_female_straight: 'B49',
+      # RCEa aInfor
+      rce_remote_qty: 'B50',
+      rce_control_qty: 'B51',
+      rce_control_cable_qty: 'B52',
+      rce_remote_cable_qty: 'B53',
+      # Site kit
+      v2_site_kit: 'B54',
+      v2_allignment_test_fixture: 'B55',
+    }
+    
     def self.with_form(form=nil, serializer: nil)
       form = new(form, serializer: serializer)
       begin
@@ -176,16 +188,30 @@ module Nexcom
       estimate.save_as(name)
     end
 
-    attr_reader :wb, :serializer, :version
+    attr_reader :wb, :serializer, :version, :attributes, :sheets
 
     def initialize(form = nil, serializer: default_serializer)
       form ||= CostEstimate::EXCEL_FILE.to_s
-      @wb = RobustExcelOle::Workbook.open(form, visible: true,if_obstructed: :forget,if_unsaved: :forget)
+      @wb = RobustExcelOle::Workbook.open(form, visible: false,if_obstructed: :forget,if_unsaved: :forget)
+      @wb.excel.ScreenUpdating = false
+      @sheets = {}
+      @attributes = {}
+
       @wb.CheckCompatibility = false
       
       @fill_date = Date.today
       @version = 1
-      @serializer = serializer 
+      @serializer = serializer
+      add_sheet(1, SHEET1)
+      add_sheet(2, SHEET2)
+      add_sheet(5, SHEET5)
+    end
+
+    def add_sheet(name_or_number, atts)
+      sheet = wb.sheet(name_or_number)
+      @sheets[name_or_number] = SheetAtts.new(sheet, atts)
+      atts.keys.each{ |k| attributes[k] = name_or_number } 
+      sheet
     end
 
     def default_serializer
@@ -210,10 +236,6 @@ module Nexcom
       end
     end
 
-    def update_attribute(key,val)
-      send("#{key}=", val)
-    end
-
     def [](att, val)
       update_attribute(att, val)
     end
@@ -233,12 +255,14 @@ module Nexcom
       lid_fac = [locid, factype].compact.join(" ")
       atts[:title] ||= "NEXCOM RADIO REPLACEMENT #{locid} #{factype}"
       atts[:location] = location_from_atts(atts)
-      atts_to_update = atts.select{ |k,v| self.class.attributes.include? k }
-      atts_to_update.each do |att,val|
-        update_attribute att, val
+      atts_to_update = Hash.new{ |h,k| h[k] = {}}
+      atts.each_with_object(atts_to_update) do | (k,v), h|
+        val = attributes[k]
+        h[val][k] = v if val
       end
-      update_header(locid,factype)
-      self
+      atts_to_update.each do |sheet, atts2|
+        sheets[sheet].update_attributes(atts2)
+      end
     end
 
     def location_from_atts(atts)
@@ -252,6 +276,11 @@ module Nexcom
       end
     end
 
+    def tables
+      @tables = Tables.new(get_tables)
+    end
+
+    
     def serialize(name= nil)
       atts = to_h
       name ||= form_data_name(atts)
@@ -260,6 +289,12 @@ module Nexcom
       end
     end
 
+    def each_sheet
+      wb.each{ |s| yield s }
+    end
+
+   
+
     def save_as(file)
       wb.save_as("#{file}")
     end
@@ -267,16 +302,53 @@ module Nexcom
     def close
       @wb.close(if_unsaved: :forget)
     end
+
+    private
+
+    def get_tables
+      tables = []
+      each_sheet do |ws|
+        get_tables_for_sheet(ws) do |t|
+          if block_given?
+            yield t
+          else
+            tables << t
+          end
+        end
+      end
+      tables
+    end
+
+    def get_tables_for_sheet(sheet)
+      tables = []
+      tbls = sheet.ListObjects
+      tbls.each do|otable|
+        t = ExcelTable.new(otable)
+        if block_given?
+          yield t
+        else
+          tables << t
+        end
+      end
+      tables unless block_given?
+    end
+
   end
 end
 
-if $0 == __FILE__
-  estimate = Nexcom::CostEstimate.new 
-  atts = { locid: 'GJT',
-           factype: 'RTR',
-           project_engineer: 'Dominic Sisneros',
-           jcn: '110333',
-           location: 'Grand Junction, CO'
-         }
-  Nexcom::CostEstimate.new_from_atts(atts)
-end
+  if $0 == __FILE__
+    estimate = Nexcom::CostEstimate.new 
+    atts = { locid: 'CDC',
+             factype: 'RTR',
+             project_engineer: 'Dominic Sisneros',
+             jcn: '110887',
+             location: 'Cedar City, UT'
+           }
+    #estimate = Nexcom::CostEstimate.new_from_atts(atts)
+    estimate = Nexcom::CostEstimate.new
+  #  estimate.update_attributes(atts)
+    tables = estimate.tables
+    material = tables['electronic']
+    puts material.data
+    estimate.close
+  end

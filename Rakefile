@@ -18,6 +18,8 @@ Hoe.spec "nexcom-srf" do
   # you'll never have to touch them again!
   # (delete this comment too, of course)
   dependency('robust_excel_ole', '>= 0.0')
+  dependency('concurrent-ruby','>= 0.0')
+  dependency('dry-core', '~>0.4')
   developer("dominic", "dsisnero@gmail.com")
   license "MIT" # this should match the license in the README
 end

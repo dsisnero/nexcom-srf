@@ -10,5 +10,7 @@ lib/nexcom/cost_estimate.rb
 lib/nexcom/excel_srf.rb
 lib/nexcom/json_serializer.rb
 lib/nexcom/paths.rb
+lib/nexcom/sheet_atts.rb
 lib/nexcom/srf.rb
+lib/nexcom/tables.rb
 test/nexcom/test_srf.rb
