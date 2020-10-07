@@ -9,7 +9,7 @@ module Nexcom
     
     EXCEL_FILE = Nexcom::ROOT + 'data/srf.v1.xlsx'
 
-    VERSION = '0.5'
+    VERSION = '0.6'
 
     attr_reader :att_locations, :sheet, :serializer, :version, :wb
 
