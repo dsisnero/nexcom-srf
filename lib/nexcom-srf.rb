@@ -1,4 +1,4 @@
-
+require 'dry/core/constants'
 require 'pathname'
 
 module Nexcom
@@ -6,4 +6,3 @@ module Nexcom
 end
 require 'nexcom/paths'
 require 'nexcom/excel_srf'
-require 'nexcom/cost_estimate'

@@ -4,13 +4,12 @@ Manifest.txt
 README.txt
 Rakefile
 data/Cost.Estimate.xlsm
-data/srf.v1.xls
+data/srf.v1.xlsx
 lib/nexcom-srf.rb
-lib/nexcom/cost_estimate.rb
 lib/nexcom/excel_srf.rb
 lib/nexcom/json_serializer.rb
 lib/nexcom/paths.rb
-lib/nexcom/sheet_atts.rb
 lib/nexcom/srf.rb
 lib/nexcom/tables.rb
-test/nexcom/test_srf.rb
+test/nexcom/test_excel_srf.rb
+test/test_helper.rb

@@ -20,6 +20,8 @@ Hoe.spec "nexcom-srf" do
   dependency('robust_excel_ole', '>= 0.0')
   dependency('concurrent-ruby','>= 0.0')
   dependency('dry-core', '~>0.4')
+  dependency('guard', '>=0', :developer)
+  dependency('guard-minitest', '>= 0.0', :developer)
   developer("dominic", "dsisnero@gmail.com")
   license "MIT" # this should match the license in the README
 end

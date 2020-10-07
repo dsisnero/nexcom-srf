@@ -7,7 +7,7 @@ module Nexcom
 
   class ExcelSrf
     
-    EXCEL_FILE = Nexcom::ROOT + 'data/srf.v1.xls'
+    EXCEL_FILE = Nexcom::ROOT + 'data/srf.v1.xlsx'
 
     VERSION = '0.5'
 
@@ -84,96 +84,101 @@ module Nexcom
 
     def atts_to_location
       {
-        fill_date: 'AQ1' ,
-        project_engineer: 'I3',
-        project_engineer_phone: 'AA3',
-        dpn: 'AQ3',
-        jcn: 'AQ5',
-        locid: 'F8',
-        factype: 'S8',
-        city: 'E10',
-        state: 'U10',
-        cost_center: 'AQ8',
-        ssc_gsa_address: 'AG10',
-        start_date: 'AG12',
-        site_prep_date: 'P12',
-        jai_date: 'AQ12',
-        shipping_street: 'C15',
-        shipping_city_state_zip: 'C16',
-        shipping_poc: 'AB15',
-        shipping_poc_phone: 'AB16',
-        shipping_special_instructions: 'N19',
+        fill_date:                      'AQ1' ,
+        project_engineer:               'I3',
+        project_engineer_phone:         'AA3',
+        dpn:                            'AQ3',
+        jcn:                            'AQ5',
+        locid:                          'F8',
+        factype:                        'S8',
+        city:                           'E10',
+        state:                          'U10',
+        cost_center:                    'AQ8',
+        ssc_gsa_address:                'AG10',
+        start_date:                     'AG12',
+        site_prep_date:                 'P12',
+        jai_date:                       'AQ12',
+        shipping_street:                'C15',
+        shipping_city_state_zip:        'C16',
+        shipping_poc:                   'AB15',
+        shipping_poc_phone:             'AB16',
+        shipping_special_instructions:  'N19',
         # labor
-        labor_site_prep_govt: 'Q23',
-        labor_site_prep_funded_tssc: 'AB23',
-        labor_site_prep_core_tssc: 'AI23',
-        labor_site_prep_floating_crew: 'AR23',
-        labor_re_govt: 'Q25',
-        labor_re_funded_tssc: 'AB25',
-        labor_re_core_tssc: 'AI25',
-        labor_re_floating_crew: 'AR25',
-        labor_install_govt: 'Q27',
-        labor_install_funded_tssc: 'AB27',
-        labor_install_core_tssc: 'AI27',
-        labor_install_floating_crew: 'AR27',
-        labor_contractors: 'I29',
+        labor_site_prep_govt:           'Q23',
+        labor_site_prep_funded_tssc:    'AB23',
+        labor_site_prep_core_tssc:      'AI23',
+        labor_site_prep_floating_crew:  'AR23',
+        labor_re_govt:                  'Q25',
+        labor_re_funded_tssc:           'AB25',
+        labor_re_core_tssc:             'AI25',
+        labor_re_floating_crew:         'AR25',
+        labor_install_govt:             'Q27',
+        labor_install_funded_tssc:      'AB27',
+        labor_install_core_tssc:        'AI27',
+        labor_install_floating_crew:    'AR27',
+        labor_contractors:              'I29',
         # funds
-        funds_siteprep_labor: 'AQ32',
-        funds_re_drafting:  'AQ33',
-        funds_installation:   'AQ34',
+        funds_siteprep_labor:           'AQ32',
+        funds_re_drafting:              'AQ33',
+        funds_installation_labor:       'AQ34',
+        funds_total_required_by_region: 'AQ35',
+        funds_net_pa_cwp_request:       'AQ36',
         # RADIOS
-        receiver_vhf_qty:  'U41',
-        transmitter_vhf_qty: 'U42',
-        receiver_uhf_qty: 'U44',
-        transmitter_uhf_qty: 'U45',
+        receiver_vhf_qty:               'U41',
+        transmitter_vhf_qty:            'U42',
+        transmitter_vhf_high_qty:       'U43',
+        receiver_uhf_qty:               'U44',
+        transmitter_uhf_qty:            'U45',
         # ANTENNAS
-        antenna_vhf_qty: 'U48',
-        antenna_vhf_vhf_qty: 'U49',
-        antenna_uhf_qty: 'U50',
-        antenna_uhf_uhf_qty: 'U51',
-        antenna_uhf_vhf_qty: 'U52',
-        antenna_vhf_4db_qty: 'U53',
-        antenna_vhf_4db_qty: 'U54',
+        antenna_vhf_qty:                'U48',
+        antenna_vhf_vhf_qty:            'U49',
+        antenna_uhf_qty:                'U50',
+        antenna_uhf_uhf_qty:            'U51',
+        antenna_uhf_vhf_qty:            'U52',
+        antenna_vhf_4db_qty:            'U53',
+        antenna_vhf_4db_qty:            'U54',
         # CABLES
-        cable_rg214: 'U56',
-        cable_lmr400uf_ft: 'U59',
-        cable_7_eigth:  'U57',
-        cable_1_half: 'U58',
+        cable_rg214:                    'U56',
+        cable_7_eighth:                 'U57',
+        cable_1_half:                   'U58',
+        cable_lmr400uf_ft:              'U59',
+        cable_other_type:               'I60',
+        cable_other_type_ft:            'U60',
         # Connectors
-        conn_7_8_male_straight: 'U73',
-        conn_7_8_female_straight: 'U74',
-        conn_7_8_female_n_type: 'U75',
-        conn_7_8_male_andrews: 'U76',
-        conn_1_2_male_straight: 'U77',
-        conn_1_2_female_right_angle: 'U78',
-        conn_1_2_female_straight: 'U79',
-        conn_lmr_400uf_straight: 'U80',
-        conn_lmr_400uf_right_angle: 'U81',
+        conn_7_8_male_straight:         'U73',
+        conn_7_8_female_straight:       'U74',
+        conn_7_8_female_n_type:         'U75',
+        conn_7_8_male_andrews:          'U76',
+        conn_1_2_male_straight:         'U77',
+        conn_1_2_female_right_angle:    'U78',
+        conn_1_2_female_straight:       'U79',
+        conn_lmr_400uf_straight:        'U80',
+        conn_lmr_400uf_right_angle:     'U81',
         conn_lmr_400uf_female_straight: 'U82',
         # Racks
-        rack_rcag_v2_8d_qty: 'AU41',
-        rack_rco_v2_8d_qty: 'AU42',
-        rack_8rx_mc_v2_83_qty: 'AU43',
-        rack_8rx_no_mc_v2_8d_qty: 'AU44',
-        rack_16rx_mc_v2_8d_qty: 'AU45',
-        rack_16rx_no_mc_v2_8d_qty: 'AU46',
-        rack_rt_shared_ant_v2_8d_qty: 'AU47',
-        rack_rt_single_ant_v2_8d_qty: 'AU48',
-        rack_4rtr_4_rce_v2_8d_qty: 'AU49',
-        rack_4rtr_v2_8d_qty: 'AU50',
-        rack_6rtr_v2_8d_qty:  'AU51',
-        rack_buec_v2_8d_qty: 'AU52',
-        rack_bare_83x25: 'U62',
-        rack_bare_83x22: 'U63',
+        rack_rcag_v2_8d_qty:            'AU42',
+        rack_rco_v2_8d_qty:             'AU43',
+        rack_8rx_mc_v2_83_qty:          'AU44',
+        rack_8rx_no_mc_v2_8d_qty:       'AU45',
+        rack_16rx_mc_v2_8d_qty:         'AU46',
+        rack_16rx_no_mc_v2_8d_qty:      'AU47',
+        rack_rt_shared_ant_v2_8d_qty:   'AU48',
+        rack_rt_single_ant_v2_8d_qty:   'AU49',
+        rack_4rtr_4_rce_v2_8d_qty:      'AU50',
+        rack_4rtr_v2_8d_qty:            'AU51',
+        rack_6rtr_v2_8d_qty:            'AU52',
+        rack_buec_v2_8d_qty:            'AU53',
+        rack_bare_83x25:                'U63',
+        rack_bare_83x22:                'U64',
         # RCE Infor
-        rce_control_qty: 'AU66',
-        rce_remote_qty: 'AU67',
-        rce_control_cable_qty: 'AU68',
-        rce_remote_cable_qty: 'AU69',
+        rce_control_qty:                'AU67',
+        rce_remote_qty:                 'AU68',
+        rce_control_cable_qty:          'AU69',
+        rce_remote_cable_qty:           'AU70',
         # Site kit
-        v2_site_kit: 'AU56',
+        v2_site_kit:                    'AU57',
         #srf comments
-        comments: 'AA82',
+        comments:                       'AA83',
       }
     end
 
@@ -185,10 +190,6 @@ module Nexcom
       atts
     end
 
-    def update_attribute(att, value)
-      loc = att_locations[att]
-      sheet.range(loc).Value = value
-    end
 
     def split_file_name(name)
       name_re = /(\w{3,4})\.(\w{3,})\.v(\d{1,2})\.xls/
@@ -200,20 +201,41 @@ module Nexcom
       end
     end
 
-    def [](att, val)
-      update_attribute(att, val)
+
+    def get_attribute(att)
+      loc = att_locations[att.to_sym]
+      sheet.range(loc).Value if loc
+    end
+
+    def [](att)
+      get_attribute(att)
+    end
+
+    def update_attribute(att, value)
+      loc = att_locations[att.to_sym]
+      sheet.range(loc).Value = value if loc
+    end
+
+    def _update_attribute(att, value)
+      loc = att_locations[att.to_sym]
+      sheet.range(loc).Value = value
+    end
+    
+    def []=(key,value)
+      update_attribute(key,value)
     end
 
     def update_attributes(atts)
+      atts = atts.transform_keys{ |k| k.to_sym }
       atts = default_attribute_values.merge(atts)
       atts[:site_prep_date] = atts[:plant_install_date]
       if atts[:site_prep_date] == ""
         atts[:site_prep_date] = atts[:electronic_install_date]
       end
       atts[:fill_date] ||= Date.today.strftime('%m/%d/%Y')
-      atts_to_update = atts.select { |k, _v| att_locations.keys.include? k }
+      atts_to_update = atts.select { |k, _v| att_locations.keys.include? k }.transform_values{ |v| v.nil? ? "" : v }
       atts_to_update.each do |k, v|
-        update_attribute(k, v) unless (v.nil? || v == "")
+        _update_attribute(k, v)
       end
     end
 
@@ -255,4 +277,5 @@ if $0 == __FILE__
          }
 
   srf = Nexcom::ExcelSrf.new_from_atts(atts)
+  require 'pry'; binding.pry
 end
