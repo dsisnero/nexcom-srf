@@ -26,4 +26,16 @@ Hoe.spec "nexcom-srf" do
   license "MIT" # this should match the license in the README
 end
 
+
+
+desc 'Push gem to github.' 
+task :release_to_github do
+  gem = FileList['pkg/*.gem'].last
+  unless gem
+    Rake::Task['repackage'].invoke
+    gem = FileList['pkg/*.gem'].last
+  end
+  sh %Q[gem push --key github --host https://rubygems.pkg.github.com/dsisnero "#{gem}"]
+end
+
 # vim: syntax=ruby
