@@ -9,9 +9,9 @@ module Nexcom
     
     EXCEL_FILE = Nexcom::ROOT + 'data/srf.v1.xlsx'
 
-    VERSION = '0.6'
+    VERSION = '0.7'
 
-    attr_reader :att_locations, :sheet, :serializer, :version, :wb
+    attr_reader :att_locations, :att_locations_indifferent, :sheet, :serializer, :version, :wb
 
     def self.with_form(form=nil, serializer: nil)
       form = new(form, serializer: serializer)
@@ -65,6 +65,7 @@ module Nexcom
       @fill_date = Date.today
       @version = 1
       @att_locations = atts_to_location
+      @att_locations_indifferent = @att_locations.merge(@att_locations.transform_keys(&:to_s))
       @serializer = serializer || default_serializer
     end
 
@@ -78,7 +79,11 @@ module Nexcom
     end
 
     def default_serializer
-      JsonSerializer.new
+      json_serializer
+    end
+
+    def json_serializer
+      @json_serializer ||= JsonSerializer.new
     end
 
 
@@ -124,37 +129,38 @@ module Nexcom
         funds_total_required_by_region: 'AQ35',
         funds_net_pa_cwp_request:       'AQ36',
         # RADIOS
-        receiver_vhf_qty:               'U41',
-        transmitter_vhf_qty:            'U42',
-        transmitter_vhf_high_qty:       'U43',
-        receiver_uhf_qty:               'U44',
-        transmitter_uhf_qty:            'U45',
+        receiver_vhf_qty:               'U42',
+        transmitter_vhf_qty:            'U43',
+        transmitter_vhf_high_qty:       'U44',
+        receiver_uhf_qty:               'U45',
+        transmitter_uhf_qty:            'U46',
+        transmitter_uhf_high_qty:       'U47',
         # ANTENNAS
-        antenna_vhf_qty:                'U48',
-        antenna_vhf_vhf_qty:            'U49',
-        antenna_uhf_qty:                'U50',
-        antenna_uhf_uhf_qty:            'U51',
-        antenna_uhf_vhf_qty:            'U52',
-        antenna_vhf_4db_qty:            'U53',
+        antenna_vhf_qty:                'U49',
+        antenna_vhf_vhf_qty:            'U50',
+        antenna_uhf_qty:                'U51',
+        antenna_uhf_uhf_qty:            'U52',
+        antenna_uhf_vhf_qty:            'U53',
         antenna_vhf_4db_qty:            'U54',
+        antenna_uhf_4db_qty:            'U55',
         # CABLES
-        cable_rg214:                    'U56',
-        cable_7_eighth:                 'U57',
-        cable_1_half:                   'U58',
-        cable_lmr400uf_ft:              'U59',
-        cable_other_type:               'I60',
-        cable_other_type_ft:            'U60',
+        cable_rg214:                    'U57',
+        cable_7_eighth:                 'U58',
+        cable_1_half:                   'U59',
+        cable_lmr400uf_ft:              'U60',
+        cable_other_type:               'I61',
+        cable_other_type_ft:            'U61',
         # Connectors
-        conn_7_8_male_straight:         'U73',
-        conn_7_8_female_straight:       'U74',
-        conn_7_8_female_n_type:         'U75',
-        conn_7_8_male_andrews:          'U76',
-        conn_1_2_male_straight:         'U77',
-        conn_1_2_female_right_angle:    'U78',
-        conn_1_2_female_straight:       'U79',
-        conn_lmr_400uf_straight:        'U80',
-        conn_lmr_400uf_right_angle:     'U81',
-        conn_lmr_400uf_female_straight: 'U82',
+        conn_7_8_male_straight:         'U74',
+        conn_7_8_female_straight:       'U75',
+        conn_7_8_female_n_type:         'U76',
+        conn_7_8_male_andrews:          'U77',
+        conn_1_2_male_straight:         'U78',
+        conn_1_2_female_right_angle:    'U79',
+        conn_1_2_female_straight:       'U80',
+        conn_lmr_400uf_straight:        'U81',
+        conn_lmr_400uf_right_angle:     'U82',
+        conn_lmr_400uf_female_straight: 'U83',
         # Racks
         rack_rcag_v2_8d_qty:            'AU42',
         rack_rco_v2_8d_qty:             'AU43',
@@ -182,15 +188,6 @@ module Nexcom
       }
     end
 
-    def get_attributes
-      atts = {}
-      att_locations.each  do |k,v|
-        atts[k] = sheet.range(v).Value
-      end
-      atts
-    end
-
-
     def split_file_name(name)
       name_re = /(\w{3,4})\.(\w{3,})\.v(\d{1,2})\.xls/
       md = name_re.match(name)
@@ -201,9 +198,16 @@ module Nexcom
       end
     end
 
+    def get_attributes
+      atts = {}
+      att_locations.each  do |k,v|
+        atts[k] = sheet.range(v).Value
+      end
+      atts
+    end
 
     def get_attribute(att)
-      loc = att_locations[att.to_sym]
+      loc = att_locations_indifferent[att]
       sheet.range(loc).Value if loc
     end
 
@@ -212,12 +216,12 @@ module Nexcom
     end
 
     def update_attribute(att, value)
-      loc = att_locations[att.to_sym]
+      loc = att_locations_indifferent[att]
       sheet.range(loc).Value = value if loc
     end
 
     def _update_attribute(att, value)
-      loc = att_locations[att.to_sym]
+      loc = att_locations_indifferent[att]
       sheet.range(loc).Value = value
     end
     
@@ -226,14 +230,15 @@ module Nexcom
     end
 
     def update_attributes(atts)
-      atts = atts.transform_keys{ |k| k.to_sym }
+      atts = atts.transform_keys(&:to_sym)
       atts = default_attribute_values.merge(atts)
       atts[:site_prep_date] = atts[:plant_install_date]
       if atts[:site_prep_date] == ""
         atts[:site_prep_date] = atts[:electronic_install_date]
       end
       atts[:fill_date] ||= Date.today.strftime('%m/%d/%Y')
-      atts_to_update = atts.select { |k, _v| att_locations.keys.include? k }.transform_values{ |v| v.nil? ? "" : v }
+      keys = att_locations.keys
+      atts_to_update = atts.select { |k, _v| keys.include? k }.transform_values{ |v| v.nil? ? "" : v }
       atts_to_update.each do |k, v|
         _update_attribute(k, v)
       end
@@ -248,6 +253,10 @@ module Nexcom
       end
     end
 
+    def to_json
+      atts = json_serializer.serialize(get_attributes)
+    end
+
     def form_data_name(atts)
       [atts[locid], atts[factype], 'srf.data.json'].join('.')
     end
@@ -256,6 +265,10 @@ module Nexcom
       att_locations.each do |_k, v|
         sheet.range(v).Value = ''
       end
+    end
+
+    def save
+      @wb.save
     end
 
     def save_as(file)
@@ -275,7 +288,24 @@ if $0 == __FILE__
            jon: '06349',
 
          }
-
-  srf = Nexcom::ExcelSrf.new_from_atts(atts)
+  atts_as_string = atts.transform_keys(&:to_s)
+  srf = Nexcom::ExcelSrf.new
+  
+ # srf = Nexcom::ExcelSrf.new_from_atts(atts)
+  
   require 'pry'; binding.pry
+  srf.update_attributes(atts)
+  json = srf.to_json
+
+  srf.close
+  srf = Nexcom::ExcelSrf.new
+  srf.update_attributes(atts_as_string)
+  json2 = srf.to_json
+  if json == json2
+    puts 'equal'
+  else
+    puts 'not equal'
+  end
+  srf.close
+  puts 'hello'
 end
