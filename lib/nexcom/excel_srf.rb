@@ -268,7 +268,7 @@ module Nexcom
     end
 
     def save
-      @wb.save
+      @wb.save(if_exists: :overwrite)
     end
 
     def save_as(file)

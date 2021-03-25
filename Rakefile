@@ -17,7 +17,7 @@ Hoe.spec "nexcom-srf" do
   # HEY! If you fill these out in ~/.hoe_template/default/Rakefile.erb then
   # you'll never have to touch them again!
   # (delete this comment too, of course)
-  dependency('robust_excel_ole', '>= 0.0')
+  dependency('robust_excel_ole', '~> 1.3')
   dependency('concurrent-ruby','>= 0.0')
   dependency('dry-core', '~>0.4')
   dependency('guard', '>=0', :developer)
