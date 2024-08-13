@@ -2,6 +2,6 @@
 
 module Nexcom
   module Srf
-    VERSION = "0.8.2"
+    VERSION = "0.8.5"
   end
 end
