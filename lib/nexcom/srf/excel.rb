@@ -5,12 +5,12 @@ module Nexcom
   class ExcelSrf
     EXCEL_FILE = Nexcom::ROOT + "data/srf.v1.xlsx"
 
-    VERSION = "0.8.1"
+    VERSION = "0.8.5"
 
     attr_reader :att_locations, :att_locations_indifferent, :sheet, :serializer, :version, :wb
 
-    def self.with_form(form = nil, serializer: nil)
-      form = new(form, serializer: serializer)
+    def self.with_form(form = nil, serializer: nil, if_unsaved: :raise)
+      form = new(form, serializer: serializer, if_unsaved: if_unsaved)
       begin
         yield form
       rescue => e
@@ -40,7 +40,7 @@ module Nexcom
     end
 
     def self.print_data(form, output, serializer: nil)
-      with_form(form, serializer: serializer) do |srf|
+      with_form(form, serializer: serializer, if_unsaved: :forget) do |srf|
         srf.serialize(output)
       end
     end
@@ -53,9 +53,9 @@ module Nexcom
       srf.save_as(name)
     end
 
-    def initialize(form = nil, serializer: nil)
+    def initialize(form = nil, serializer: nil, if_unsaved: :raise)
       form ||= EXCEL_FILE.to_s
-      @wb = RobustExcelOle::Workbook.open(form, visible: true, if_unsaved: :accept)
+      @wb = RobustExcelOle::Workbook.open(form, visible: true, if_unsaved: if_unsaved)
       @sheet = @wb.sheet(1)
       @fill_date = Date.today
       @version = 1
